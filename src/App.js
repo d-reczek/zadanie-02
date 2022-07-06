@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import List from "./components/List";
 import { data } from "./data/data";
+import List from "./view/List";
 
 const Wrapper = styled.div`
   display: flex;
