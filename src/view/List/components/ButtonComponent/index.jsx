@@ -5,7 +5,11 @@ const Button = styled.button`
   padding: 5px;
   border: none;
   flex-grow: 1;
-
+  cursor: pointer;
+  :hover {
+    background-color: grey;
+    color: #fff;
+  }
 `;
 
 const ButtonComponent = ({ children, onClick }) => {

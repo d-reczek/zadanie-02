@@ -14,6 +14,8 @@ const Text = styled.p`
   margin: 0;
 `;
 const Item = ({ text, updateData, id, isActive }) => {
+
+
   const handleToggle = id => {
     updateData(oldArray =>
       oldArray.map(user => {
@@ -26,6 +28,7 @@ const Item = ({ text, updateData, id, isActive }) => {
   };
   const handleDelete = id => {
     updateData(oldArray => oldArray.filter(user => user.id !== id));
+    alert(`User ${text} deleted`);
   };
 
   return (
