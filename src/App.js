@@ -15,22 +15,36 @@ function App() {
 
   const [isFetching, setIsFetching] = useState(true);
   const [pokemons, setPokemons] = useState(null);
-  const fetchPokemons = useCallback(() => {
-    const fetchData = async () => {
-      try {
-        const response = await (
-          await fetch("https://pokeapi.co/api/v2/pokemon")
-        ).json();
-        setPokemons(response.results);
-        console.log(pokemons);
-        setIsFetching(false);
-      } catch (err) {
-        console.log(err);
-        setIsFetching(true);
-      }
-    };
-    fetchData();
-  }, [pokemons]);
+  const randomIntFromInterval = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
+  const modifiedPokemons = data => {
+    let newPokemons = [];
+    if (data) {
+      newPokemons = data
+        .map(pokemon => ({
+          name: pokemon.name,
+          isActive: false,
+          url: pokemon.url,
+          id: pokemon.name,
+          age: randomIntFromInterval(1, 99),
+        }))
+        .filter(item => item.age >= 18);
+    }
+    return newPokemons;
+  };
+  const fetchPokemons = useCallback(async () => {
+    try {
+      const response = await (
+        await fetch("https://pokeapi.co/api/v2/pokemon")
+      ).json();
+      setPokemons(modifiedPokemons(response.results));
+      setIsFetching(false);
+    } catch (err) {
+      console.log(err);
+      setIsFetching(true);
+    }
+  }, []);
 
   const modifiedData = data => {
     const array = Object.entries(data)
@@ -47,9 +61,9 @@ function App() {
     return newData;
   };
   useEffect(() => {
-    setUsers(modifiedData(data));
     fetchPokemons();
-  }, []);
+    setUsers(modifiedData(data));
+  }, [fetchPokemons]);
 
   return (
     <div className="App">
@@ -59,6 +73,7 @@ function App() {
           pokemons={pokemons}
           users={users}
           setUsers={setUsers}
+          setPokemons={setPokemons}
         />
       </Wrapper>
     </div>

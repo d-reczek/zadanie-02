@@ -7,7 +7,7 @@ const ListContainer = styled.ul`
   flex-direction: column;
 `;
 
-const List = ({ users, setUsers, pokemons, isFetching }) => {
+const List = ({ users, setUsers, pokemons, setPokemons, isFetching }) => {
   const handleAddUser = () => {
     setUsers(oldArray => [
       ...oldArray,
@@ -35,7 +35,15 @@ const List = ({ users, setUsers, pokemons, isFetching }) => {
       {isFetching ? (
         <p>Data is loading</p>
       ) : (
-        pokemons.map(pokemon => <div key={pokemon.name}> {pokemon.name} </div>)
+        pokemons.map(pokemon => (
+          <Item
+            key={pokemon.name}
+            id={pokemon.id}
+            text={pokemon.name}
+            isActive={pokemon.isActive}
+            updateData={setPokemons}
+          />
+        ))
       )}
     </ListContainer>
   );
