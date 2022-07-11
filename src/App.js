@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { data } from "./data/data";
 import List from "./view/List";
@@ -12,6 +12,26 @@ const Wrapper = styled.div`
 `;
 function App() {
   const [users, setUsers] = useState([]);
+
+  const [isFetching, setIsFetching] = useState(true);
+  const [pokemons, setPokemons] = useState(null);
+  const fetchPokemons = useCallback(() => {
+    const fetchData = async () => {
+      try {
+        const response = await (
+          await fetch("https://pokeapi.co/api/v2/pokemon")
+        ).json();
+        setPokemons(response.results);
+        console.log(pokemons);
+        setIsFetching(false);
+      } catch (err) {
+        console.log(err);
+        setIsFetching(true);
+      }
+    };
+    fetchData();
+  }, [pokemons]);
+
   const modifiedData = data => {
     const array = Object.entries(data)
       .map(([key, value]) => ({
@@ -28,12 +48,18 @@ function App() {
   };
   useEffect(() => {
     setUsers(modifiedData(data));
+    fetchPokemons();
   }, []);
 
   return (
     <div className="App">
       <Wrapper>
-        <List users={users} setUsers={setUsers} />
+        <List
+          isFetching={isFetching}
+          pokemons={pokemons}
+          users={users}
+          setUsers={setUsers}
+        />
       </Wrapper>
     </div>
   );
