@@ -35,15 +35,7 @@ const List = ({ users, setUsers, pokemons, isFetching }) => {
       {isFetching ? (
         <p>Data is loading</p>
       ) : (
-        pokemons.map(pokemon => (
-          <Item
-            key={pokemon.name}
-            id={pokemon.name}
-            text={pokemon.name}
-            isActive={pokemon.isActive}
-            updateData={setUsers}
-          />
-        ))
+        pokemons.map(pokemon => <div key={pokemon.name}> {pokemon.name} </div>)
       )}
     </ListContainer>
   );
