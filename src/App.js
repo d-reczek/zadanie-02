@@ -45,6 +45,8 @@ function App() {
       setIsFetching(true);
     }
   }, []);
+  //tutaj eslint sugeruje mi zeby dodaj modifiedPokemons do array dependency ale jak to zrobie to mam niekonczace sie
+  // wysylanie zapytan do api, nie wiem dlaczego tak sie dzieje
 
   const modifiedData = data => {
     const array = Object.entries(data)
